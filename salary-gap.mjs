@@ -247,7 +247,7 @@ function parseLocationSalaryBands(raw) {
     "(?<=[\\dkK])\\s+(?=(?:[A-Z][A-Za-z .'-]*,\\s*)?(?:" + stateLabels + "):\\s*(?:[$€£¥]|\\d))",
     'i',
   );
-  const separated = String(raw ?? '').replace(nextLocationLabel, '\\n');
+  const separated = String(raw ?? '').replace(nextLocationLabel, '\n');
   return separated.split(/[;\n]+/).map((part) => {
     const match = part.trim().match(/^(.{1,100}?)\s*:\s*(.+)$/s);
     if (!match) return null;
