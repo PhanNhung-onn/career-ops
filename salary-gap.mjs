@@ -236,10 +236,18 @@ const normalizeSalaryLocation = (value) => String(value ?? '')
  * Per-level labels are intentionally not treated as locations.
  */
 function parseLocationSalaryBands(raw) {
-  const separated = String(raw ?? '').replace(
-    /\s+(?=[^:;\n]{1,80}:\s*(?:[$€£¥]|\d))/g,
-    '\n',
+  const stateLabels = [
+    ...US_STATE_CODES,
+    ...[...US_STATE_NAMES.keys()].sort((a, b) => b.length - a.length),
+  ].join('|');
+  // Split only before a recognizable state/city label. Splitting at every
+  // space before a colon breaks multiword cities ("New York"), fallback
+  // labels ("All other locations"), and numbered regions ("Zone 1").
+  const nextLocationLabel = new RegExp(
+    "\\s+(?=(?:[A-Z][A-Za-z .'-]*,\\s*)?(?:" + stateLabels + "):\\s*(?:[$€£¥]|\\d))",
+    'i',
   );
+  const separated = String(raw ?? '').replace(nextLocationLabel, '\\n');
   return separated.split(/[;\n]+/).map((part) => {
     const match = part.trim().match(/^(.{1,100}?)\s*:\s*(.+)$/s);
     if (!match) return null;
