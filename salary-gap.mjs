@@ -244,7 +244,7 @@ function parseLocationSalaryBands(raw) {
   // space before a colon breaks multiword cities ("New York"), fallback
   // labels ("All other locations"), and numbered regions ("Zone 1").
   const nextLocationLabel = new RegExp(
-    "\\s+(?=(?:[A-Z][A-Za-z .'-]*,\\s*)?(?:" + stateLabels + "):\\s*(?:[$€£¥]|\\d))",
+    "(?<=[\\dkK])\\s+(?=(?:[A-Z][A-Za-z .'-]*,\\s*)?(?:" + stateLabels + "):\\s*(?:[$€£¥]|\\d))",
     'i',
   );
   const separated = String(raw ?? '').replace(nextLocationLabel, '\\n');
