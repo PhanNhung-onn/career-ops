@@ -71,7 +71,7 @@ try {
 
   const run = spawnSync(process.execPath, [join(ROOT, 'salary-gap.mjs')], {
     cwd: ROOT,
-    env: { ...process.env, CAREER_OPS_ROOT: dataRoot },
+    env: { ...process.env, CAREER_OPS_ROOT: dataRoot, CAREER_OPS_PROFILE: '' },
     encoding: 'utf8',
   });
   let byNum = {};
